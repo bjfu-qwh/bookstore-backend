@@ -1,4 +1,4 @@
-package org.edu.bookstore.backend.controller.ums;
+package org.edu.bookstore.backend.entity.ums;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -11,6 +11,9 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+/**
+ * User表示一个账号
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -25,6 +28,9 @@ public class User {
 
     @TableField(value = "password")
     private String password;
+
+    @TableField(value = "role")
+    private String role;
 
     @TableField(value = "url")
     private String url;
