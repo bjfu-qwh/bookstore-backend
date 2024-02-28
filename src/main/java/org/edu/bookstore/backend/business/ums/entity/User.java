@@ -1,4 +1,4 @@
-package org.edu.bookstore.backend.entity.ums;
+package org.edu.bookstore.backend.business.ums.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;

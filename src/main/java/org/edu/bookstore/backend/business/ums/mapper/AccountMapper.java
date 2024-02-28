@@ -1,8 +1,8 @@
-package org.edu.bookstore.backend.mapper.ums;
+package org.edu.bookstore.backend.business.ums.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
-import org.edu.bookstore.backend.entity.ums.User;
+import org.edu.bookstore.backend.business.ums.entity.User;
 
 public interface AccountMapper extends BaseMapper<User> {
     User getByUserID(@Param("user_id") String userID);

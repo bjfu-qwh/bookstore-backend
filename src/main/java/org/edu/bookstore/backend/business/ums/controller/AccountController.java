@@ -1,13 +1,10 @@
-package org.edu.bookstore.backend.controller.ums;
+package org.edu.bookstore.backend.business.ums.controller;
 
+import org.edu.bookstore.backend.business.ums.entity.User;
 import org.edu.bookstore.backend.dto.ResultDTO;
-import org.edu.bookstore.backend.dto.ums.LoginDTO;
-import org.edu.bookstore.backend.dto.ums.UserTokenDTO;
-import org.edu.bookstore.backend.entity.ums.User;
-import org.edu.bookstore.backend.service.ums.AccountService;
-import org.edu.bookstore.backend.util.AuthenticationUtil;
-import org.edu.bookstore.backend.util.ResultDTOUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.edu.bookstore.backend.business.ums.dto.LoginDTO;
+import org.edu.bookstore.backend.business.ums.dto.UserTokenDTO;
+import org.edu.bookstore.backend.business.ums.service.AccountService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

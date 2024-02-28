@@ -8,8 +8,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.extern.slf4j.Slf4j;
 import org.edu.bookstore.backend.configurationproperties.JWTProperties;
 import org.edu.bookstore.backend.dto.ResultDTO;
-import org.edu.bookstore.backend.mapper.ums.AccountMapper;
-import org.edu.bookstore.backend.service.ums.AccountService;
+import org.edu.bookstore.backend.business.ums.mapper.AccountMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;

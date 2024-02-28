@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.edu.bookstore.backend.mapper.ums.AccountMapper">
-    <insert id="register" parameterType="org.edu.bookstore.backend.entity.ums.User">
+<mapper namespace="org.edu.bookstore.backend.business.ums.mapper.AccountMapper">
+    <insert id="register" parameterType="org.edu.bookstore.backend.business.ums.entity.User">
         insert into t_ums_user
             (id, username, password, role, url)
         values (#{user.id}, #{user.username}, #{user.password}, #{user.role}, #{user.url});
@@ -27,7 +27,7 @@
         from t_ums_user
         where (email = #{email});
     </select>
-    <resultMap id="user-map" type="org.edu.bookstore.backend.entity.ums.User">
+    <resultMap id="user-map" type="org.edu.bookstore.backend.business.ums.entity.User">
         <id property="id" column="id" javaType="String" jdbcType="VARCHAR"/>
         <result property="username" column="username" jdbcType="VARCHAR" javaType="String"/>
         <result property="password" column="password" javaType="String" jdbcType="VARCHAR"/>

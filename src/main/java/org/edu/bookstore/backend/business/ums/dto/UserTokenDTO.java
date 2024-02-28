@@ -1,4 +1,4 @@
-package org.edu.bookstore.backend.dto.ums;
+package org.edu.bookstore.backend.business.ums.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

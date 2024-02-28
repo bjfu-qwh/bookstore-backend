@@ -1,4 +1,4 @@
-package org.edu.bookstore.backend.service.ums;
+package org.edu.bookstore.backend.business.ums.service;
 
 import org.springframework.stereotype.Service;
 

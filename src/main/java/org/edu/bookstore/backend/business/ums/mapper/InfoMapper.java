@@ -1,4 +1,4 @@
-package org.edu.bookstore.backend.mapper.ums;
+package org.edu.bookstore.backend.business.ums.mapper;
 
 import org.apache.ibatis.annotations.Param;
 

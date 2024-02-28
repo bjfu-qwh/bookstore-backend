@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
+import org.mybatis.spring.annotation.MapperScans;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,7 +12,9 @@ import org.springframework.context.annotation.Configuration;
  * 开启mybatis的mapper bean注册以及mybatis-plus的分页插件
  */
 @Configuration
-@MapperScan("org.edu.bookstore.backend.mapper")
+@MapperScans({
+        @MapperScan("org.edu.bookstore.backend.business.ums.mapper")
+})
 public class MybatisPlusConfig {
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor() {

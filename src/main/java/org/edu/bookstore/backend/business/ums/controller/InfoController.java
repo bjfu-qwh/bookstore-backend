@@ -1,4 +1,4 @@
-package org.edu.bookstore.backend.controller.ums;
+package org.edu.bookstore.backend.business.ums.controller;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;

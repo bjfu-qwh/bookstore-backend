@@ -1,17 +1,15 @@
-package org.edu.bookstore.backend.service.ums;
+package org.edu.bookstore.backend.business.ums.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.edu.bookstore.backend.dto.ums.LoginDTO;
+import org.edu.bookstore.backend.business.ums.dto.LoginDTO;
+import org.edu.bookstore.backend.business.ums.entity.User;
+import org.edu.bookstore.backend.business.ums.mapper.AccountMapper;
 import org.edu.bookstore.backend.dto.ResultDTO;
-import org.edu.bookstore.backend.dto.ums.UserTokenDTO;
-import org.edu.bookstore.backend.entity.ums.User;
-import org.edu.bookstore.backend.mapper.ums.AccountMapper;
+import org.edu.bookstore.backend.business.ums.dto.UserTokenDTO;
 import org.edu.bookstore.backend.util.JWTUtil;
 import org.edu.bookstore.backend.util.ResultDTOUtil;
 import org.edu.bookstore.backend.util.UUIDUtil;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 
 /**
  * 负责实现账号相关的功能。包括用户登录、注册以及注销还有相关查询功能。
