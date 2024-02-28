@@ -17,6 +17,10 @@ public class ResultDTOUtil {
         return new ResultDTO<>(CODE_SUCCESS, message, data);
     }
 
+    public static <T> ResultDTO<T> error(String message) {
+        return new ResultDTO<>(CODE_ERROR, message, null);
+    }
+
     public static <T> ResultDTO<T> errorNotFound(String message) {
         return new ResultDTO<>(CODE_NOT_FOUND, message, null);
     }
