@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 @SpringBootTest
 public class JWTPropertiesTest {
 
@@ -12,6 +14,9 @@ public class JWTPropertiesTest {
 
     @Test
     public void testJWTConfig() {
-        System.out.println(jwtUtil.createJWT("114514"));
+        assertInstanceOf(JWTUtil.class, jwtUtil);
+        assertNotNull(jwtUtil);
+        String testUserID = "randomUser";
+        System.out.println(jwtUtil.createJWT(testUserID));
     }
 }
