@@ -1,5 +1,9 @@
 # 在线图书销售系统
 
+在线图书销售系统是一套基于**Spring Boot + Vue3**的书店网络服务系统。
+
+- [后台管理系统](https://github.com/bjfu-qwh/bookstore-frontend.git)
+
 ## 功能特性
 
 ## 软件架构
@@ -24,4 +28,4 @@ TODO:在这里完成软件架构图
 
 ## 许可证
 
-BookStore is licensed under the MIT. See [LICENSE](https://opensource.org/license/MIT) for the full license text.
+BookStore is licensed under the MIT. See [LICENSE](LICENSE) for the full license text.

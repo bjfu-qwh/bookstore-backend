@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.edu.bookstore.backend.business.bms.mapper.BookMapper">
+    <insert id="addBook" parameterType="org.edu.bookstore.backend.business.bms.entity.Book">
+        insert into t_bms_book(isbn, book_name, press, amount, category_id, price, edition, published, type)
+        values (#{book.isbn}, #{book.bookName}, #{book.press}, #{book.amount}, #{book.categoryID},
+                #{book.price}, #{book.edition}, #{book.published}, #{book.type});
+    </insert>
+    <select id="searchByBookName" resultMap="book-map">
+        select book.*
+        from t_bms_book book
+                 left outer join t_author_work work on work.work_id = book.id
+                 left outer join t_author_info author on author.id = work.author_id
+        where (
+                  book.isbn = #{query} or
+                  book_name like concat('%', #{query}, '%') or
+                  author.name like concat('%', #{query}, '%') or
+                  book.press like concat('%', #{query}, '%')
+                  )
+        order by published desc
+    </select>
+    <select id="getByID" resultMap="book-map">
+        select *
+        from t_bms_book book
+        where (book.id = #{id});
+    </select>
+    <resultMap id="book-map" type="org.edu.bookstore.backend.business.bms.entity.Book">
+        <id property="id" column="id" javaType="long" jdbcType="BIGINT"/>
+        <result property="price" column="price" javaType="BigDecimal" jdbcType="DECIMAL"/>
+        <result property="bookName" column="book_name" javaType="String" jdbcType="VARCHAR"/>
+        <result property="isbn" column="isbn" javaType="String" jdbcType="VARCHAR"/>
+        <result property="amount" column="amount" javaType="int" jdbcType="INTEGER"/>
+        <result property="categoryID" column="category_id" javaType="long" jdbcType="BIGINT"/>
+        <result property="edition" column="edition" javaType="String" jdbcType="VARCHAR"/>
+        <result property="published" column="published"/>
+        <result property="type" column="type" javaType="String" jdbcType="VARCHAR"/>
+        <result property="press" column="press" javaType="String" jdbcType="VARCHAR"/>
+    </resultMap>
+</mapper>

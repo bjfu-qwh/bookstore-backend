@@ -15,6 +15,6 @@ spring:
     include:
       - "jwt"
       - "mail"
-      - "oss"
 mybatis-plus:
   mapper-locations: "classpath:/mappers/*.xml"
+  type-aliases-package: org.edu.bookstore.backend.business

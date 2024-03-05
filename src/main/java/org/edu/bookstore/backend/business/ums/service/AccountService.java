@@ -2,10 +2,10 @@ package org.edu.bookstore.backend.business.ums.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.edu.bookstore.backend.business.ums.dto.LoginDTO;
+import org.edu.bookstore.backend.business.ums.dto.UserTokenDTO;
 import org.edu.bookstore.backend.business.ums.entity.User;
 import org.edu.bookstore.backend.business.ums.mapper.AccountMapper;
 import org.edu.bookstore.backend.dto.ResultDTO;
-import org.edu.bookstore.backend.business.ums.dto.UserTokenDTO;
 import org.edu.bookstore.backend.util.JWTUtil;
 import org.edu.bookstore.backend.util.ResultDTOUtil;
 import org.edu.bookstore.backend.util.UUIDUtil;

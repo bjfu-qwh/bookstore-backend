@@ -10,8 +10,7 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest
@@ -23,7 +22,7 @@ public class MysqlTest {
     public void testConnection() throws SQLException {
         assertTrue(applicationContext.containsBean("dataSource"));
         DataSource dataSource = applicationContext.getBean("dataSource", DataSource.class);
-        assertTrue(dataSource instanceof HikariDataSource);
+        assertInstanceOf(HikariDataSource.class, dataSource);
         Connection connection = dataSource.getConnection();
         assertNotNull(connection);
         connection.close();

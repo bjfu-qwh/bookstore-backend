@@ -2,7 +2,6 @@ package org.edu.bookstore.backend.util;
 
 import org.edu.bookstore.backend.dto.ResultDTO;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestHeader;
 
 @Component
 public class AuthenticationUtil {
@@ -12,14 +11,14 @@ public class AuthenticationUtil {
         this.jwtUtil = jwtUtil;
     }
 
-    public ResultDTO<String> checkToken(@RequestHeader("Authorization") String token, String userID) {
+    public ResultDTO<String> checkToken(String token, String userID, String role) {
         if (token == null || token.isEmpty()) {
             return ResultDTOUtil.errorUnAuthorized("用户未认证");
         }
         if (userID != null) {
-            return jwtUtil.parseJWT(token, userID);
+            return jwtUtil.parseJWT(token, userID, role);
         }
-        return ResultDTOUtil.successWithMessageOnly("校验无误");
+        return null;
     }
 
 

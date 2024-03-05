@@ -6,9 +6,10 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.extern.slf4j.Slf4j;
+import org.edu.bookstore.backend.business.ums.entity.User;
+import org.edu.bookstore.backend.business.ums.mapper.AccountMapper;
 import org.edu.bookstore.backend.configurationproperties.JWTProperties;
 import org.edu.bookstore.backend.dto.ResultDTO;
-import org.edu.bookstore.backend.business.ums.mapper.AccountMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -36,7 +37,7 @@ public class JWTUtil {
                 .sign(Algorithm.HMAC256(jwtProperties.getSecret()));
     }
 
-    public ResultDTO<String> parseJWT(String token, String userID) {
+    public ResultDTO<String> parseJWT(String token, String userID, String role) {
         log.info("为账号{}认证", userID);
         JWTVerifier verifier = JWT.require(Algorithm.HMAC256(jwtProperties.getSecret()))
                 .withIssuer(jwtProperties.getIssuer())
@@ -44,14 +45,20 @@ public class JWTUtil {
         try {
             DecodedJWT jwt = verifier.verify(token);
             String user = jwt.getSubject();
-            if (user == null || accountMapper.getByUserID(userID) == null) {
+            User userInfo = accountMapper.getByUserID(userID);
+            if (user == null || userInfo == null) {
                 log.warn("未认证账号ID:{}", userID);
                 return ResultDTOUtil.errorUnAuthorized("未认证的用户，请重新登录");
-            } else if (!user.equals(userID)) {
+            }
+            if (!user.equals(userID)) {
                 log.warn("账号不匹配:{} <-> {}", userID, user);
                 return ResultDTOUtil.errorForbidden("用户认证信息与当前用户不匹配");
             }
-            return ResultDTOUtil.successWithMessageOnly("校验无误");
+            if (!role.equals(userInfo.getRole())) {
+                log.error("账号类型错误:{}", role);
+                return ResultDTOUtil.errorForbidden("账号类型错误");
+            }
+            return null;
         } catch (TokenExpiredException expiredException) {
             return ResultDTOUtil.errorUnAuthorized("登录信息已超时，请重新登录");
         }

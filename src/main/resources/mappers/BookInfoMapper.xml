@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.edu.bookstore.backend.business.bms.mapper.BookInfoMapper">
+
+    <update id="changeBookISBN">
+        update t_bms_book
+        set isbn=#{isbn}
+        where (id = #{id});
+    </update>
+    <update id="changeBookName">
+        update t_bms_book
+        set book_name= #{name}
+        where (id = #{id});
+    </update>
+    <update id="changeBookPress">
+        update t_bms_book
+        set press=#{press}
+        where (id = #{id});
+    </update>
+    <update id="changeBookPrice">
+        update t_bms_book
+        set price=#{price}
+        where (id = #{id});
+    </update>
+    <update id="changeBookCategory">
+        update t_bms_book
+        set category_id=#{category}
+        where (id = #{id});
+    </update>
+    <update id="changeBookAmount">
+        update t_bms_book
+        set isbn=#{isbn}
+        where (id = #{id});
+    </update>
+</mapper>
