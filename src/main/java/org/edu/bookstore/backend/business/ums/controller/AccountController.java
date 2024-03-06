@@ -22,7 +22,7 @@ public class AccountController {
         return accountService.register(user);
     }
 
-    @GetMapping("login")
+    @PostMapping("login")
     public ResultDTO<UserTokenDTO> login(@RequestBody LoginDTO loginDTO) {
         return accountService.login(loginDTO);
     }

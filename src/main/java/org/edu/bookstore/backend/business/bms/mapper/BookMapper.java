@@ -1,12 +1,13 @@
 package org.edu.bookstore.backend.business.bms.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 import org.edu.bookstore.backend.business.bms.entity.Book;
 
 import java.util.List;
 
-public interface BookMapper {
+public interface BookMapper extends BaseMapper<Book> {
     /**
      * 添加图书记录
      *
@@ -21,7 +22,5 @@ public interface BookMapper {
      * @param query 查询关键字
      * @return {@link Book}对象
      */
-    List<Book> searchByBookName(Page<Book> page, @Param("query") String query);
-
-    Book getByID(@Param("id") long bookID);
+    List<Book> search(Page<Book> page, @Param("query") String query);
 }

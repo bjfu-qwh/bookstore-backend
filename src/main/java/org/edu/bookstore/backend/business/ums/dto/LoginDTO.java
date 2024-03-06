@@ -1,5 +1,6 @@
 package org.edu.bookstore.backend.business.ums.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoginDTO implements Serializable {
+    @JsonProperty(value = "key")
     private String key;
+    @JsonProperty(value = "password")
     private String password;
 }

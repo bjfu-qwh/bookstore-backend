@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import static org.edu.bookstore.backend.business.ums.constant.UserRole.ROLE_WORKER;
 
 @RestController
-@RequestMapping("/bms/")
+@RequestMapping("/back/bms/book/")
 public class BackBookController {
     private final BackBookService backBookService;
 

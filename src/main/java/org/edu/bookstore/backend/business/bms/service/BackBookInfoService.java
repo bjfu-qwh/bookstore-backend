@@ -23,8 +23,16 @@ public class BackBookInfoService {
         this.bookMapper = bookMapper;
     }
 
+    /**
+     * 修改图书名称。
+     *
+     * @param bookID   图书编号
+     * @param bookName 新书名称
+     * @param workerID 修改工作人员账号ID
+     * @return 修改结果
+     */
     public ResultDTO<String> changeBookName(long bookID, String bookName, String workerID) {
-        Book book = bookMapper.getByID(bookID);
+        Book book = bookMapper.selectById(bookID);
         if (book == null) {
             return ResultDTOUtil.errorNotFound("未能查询到相关图书，请稍后再试");
         }
