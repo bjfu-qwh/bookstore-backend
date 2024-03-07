@@ -3,8 +3,9 @@
 <mapper namespace="org.edu.bookstore.backend.business.ums.mapper.AccountMapper">
     <insert id="register" parameterType="org.edu.bookstore.backend.business.ums.entity.User">
         insert into t_ums_user
-            (id, username, password, role, url)
-        values (#{user.id}, #{user.username}, #{user.password}, #{user.role}, #{user.url});
+            (id, username, password, email, phone, role, url)
+        values (#{user.id}, #{user.username}, #{user.password},
+                #{user.email}, #{user.phone}, #{user.role}, #{user.url});
     </insert>
     <update id="updateLastVisit">
         update t_ums_user

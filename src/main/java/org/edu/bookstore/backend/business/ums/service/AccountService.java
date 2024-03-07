@@ -2,6 +2,7 @@ package org.edu.bookstore.backend.business.ums.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.edu.bookstore.backend.business.ums.dto.LoginDTO;
+import org.edu.bookstore.backend.business.ums.dto.UserRegisterDTO;
 import org.edu.bookstore.backend.business.ums.dto.UserTokenDTO;
 import org.edu.bookstore.backend.business.ums.entity.User;
 import org.edu.bookstore.backend.business.ums.mapper.AccountMapper;
@@ -10,6 +11,8 @@ import org.edu.bookstore.backend.util.JWTUtil;
 import org.edu.bookstore.backend.util.ResultDTOUtil;
 import org.edu.bookstore.backend.util.UUIDUtil;
 import org.springframework.stereotype.Service;
+
+import static org.edu.bookstore.backend.business.ums.constant.UserRole.ROLE_WORKER;
 
 /**
  * 负责实现账号相关的功能。包括用户登录、注册以及注销还有相关查询功能。
@@ -29,18 +32,36 @@ public class AccountService {
     /**
      * 账号注册功能实现。假设前端已经做好了校验工作
      *
-     * @param user 注册账号信息
+     * @param info 注册账号信息
      * @return 注册是否成功。
      */
-    public ResultDTO<String> register(User user) {
+    public ResultDTO<UserTokenDTO> register(UserRegisterDTO info) {
         String uuid = UUIDUtil.getUUID();
-        synchronized (accountMapper) {
-            user.setId(uuid);
-            if (accountMapper.register(user) != 0) {
-                return ResultDTOUtil.successWithMessageOnly("账号注册成功");
-            }
-            return ResultDTOUtil.error("系统故障");
+        User user = infoToWorker(info);
+        user.setId(uuid);
+        if (accountMapper.register(user) != 0) {
+            return ResultDTOUtil.success("注册成功",
+                    new UserTokenDTO(
+                            uuid,
+                            user.getUsername(),
+                            user.getEmail(),
+                            jwtUtil.createJWT(uuid),
+                            user.getUrl()
+                    )
+            );
         }
+        return ResultDTOUtil.error("系统故障");
+    }
+
+    private User infoToWorker(UserRegisterDTO info) {
+        User user = new User();
+        user.setUrl(info.getUrl());
+        user.setUsername(info.getUsername());
+        user.setEmail(info.getEmail());
+        user.setPhone(info.getPhone());
+        user.setPassword(info.getPassword());
+        user.setRole(ROLE_WORKER);
+        return user;
     }
 
     /**
@@ -81,8 +102,24 @@ public class AccountService {
     private UserTokenDTO fromUserToUserToken(User user) {
         UserTokenDTO userTokenDTO = new UserTokenDTO();
         userTokenDTO.setEmail(user.getEmail());
+        userTokenDTO.setId(user.getId());
+        userTokenDTO.setUrl(user.getUrl());
         userTokenDTO.setUsername(user.getUsername());
         userTokenDTO.setToken(jwtUtil.createJWT(user.getId()));
         return userTokenDTO;
+    }
+
+    public ResultDTO<String> checkEmail(String email) {
+        if (accountMapper.getByEmail(email) != null) {
+            return ResultDTOUtil.errorForbidden("该邮箱已被注册，请更换邮箱");
+        }
+        return ResultDTOUtil.successWithMessageOnly("该邮箱可以使用");
+    }
+
+    public ResultDTO<String> checkPhone(String phone) {
+        if (accountMapper.getByPhone(phone) != null) {
+            return ResultDTOUtil.errorForbidden("该手机号码已被注册，请更换");
+        }
+        return ResultDTOUtil.successWithMessageOnly("该手机号可以使用");
     }
 }
