@@ -50,11 +50,11 @@ public class JWTUtil {
                 log.warn("未认证账号ID:{}", userID);
                 return ResultDTOUtil.errorUnAuthorized("未认证的用户，请重新登录");
             }
-            if (!user.equals(userID)) {
+            if (userID != null && !user.equals(userID)) {
                 log.warn("账号不匹配:{} <-> {}", userID, user);
                 return ResultDTOUtil.errorForbidden("用户认证信息与当前用户不匹配");
             }
-            if (!role.equals(userInfo.getRole())) {
+            if (role != null && !role.equals(userInfo.getRole())) {
                 log.error("账号类型错误:{}", role);
                 return ResultDTOUtil.errorForbidden("账号类型错误");
             }

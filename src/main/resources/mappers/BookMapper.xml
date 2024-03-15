@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.edu.bookstore.backend.business.bms.mapper.BookMapper">
     <insert id="addBook" parameterType="org.edu.bookstore.backend.business.bms.entity.Book">
-        insert into t_bms_book(isbn, book_name, press, amount, category_id, price, edition, published, type)
-        values (#{book.isbn}, #{book.bookName}, #{book.press}, #{book.amount}, #{book.categoryID},
+        insert into t_bms_book(isbn, book_name, press, amount, category_id, page, price, edition, published, type)
+        values (#{book.isbn}, #{book.bookName}, #{book.press}, #{book.amount}, #{book.categoryID}, #{book.page},
                 #{book.price}, #{book.edition}, #{book.published}, #{book.type});
     </insert>
     <select id="search" resultMap="book-map">
@@ -27,6 +27,7 @@
         <result property="amount" column="amount" javaType="int" jdbcType="INTEGER"/>
         <result property="categoryID" column="category_id" javaType="long" jdbcType="BIGINT"/>
         <result property="edition" column="edition" javaType="String" jdbcType="VARCHAR"/>
+        <result property="page" column="page" javaType="Integer" jdbcType="INTEGER"/>
         <result property="published" column="published"/>
         <result property="type" column="type" javaType="String" jdbcType="VARCHAR"/>
         <result property="press" column="press" javaType="String" jdbcType="VARCHAR"/>

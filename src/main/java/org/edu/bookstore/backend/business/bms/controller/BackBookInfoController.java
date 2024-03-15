@@ -24,7 +24,7 @@ public class BackBookInfoController {
                                             @RequestHeader("Authorization") String token,
                                             @RequestParam("bookID") long bookID,
                                             @RequestParam("bookName") String name) {
-        ResultDTO<String> check = authenticationUtil.checkToken(token, workerID, ROLE_WORKER);
+        ResultDTO<String> check = authenticationUtil.checkTokenAndUserRole(token, workerID, ROLE_WORKER);
         if (check != null) {
             return check;
         }

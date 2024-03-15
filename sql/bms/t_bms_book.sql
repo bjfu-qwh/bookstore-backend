@@ -8,6 +8,7 @@ create table if not exists t_bms_book
     book_name   varchar(255) comment '图书名',
     index idx_book_name (book_name),
     press       varchar(80) comment '图书出版社',
+    page        int comment '图书页数'                       default (0),
     index idx_book_press (press),
     category_id bigint comment '图书根分类ID,-1表示暂无分类' default (-1),
     price       decimal(10, 2)                               default 0.00 comment '图书价格',

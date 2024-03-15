@@ -24,7 +24,7 @@ public class BackBookController {
     public ResultDTO<String> addBook(@RequestHeader("Authorization") String token,
                                      @RequestBody Book book,
                                      String workerID) {
-        ResultDTO<String> check = authenticationUtil.checkToken(token, workerID, ROLE_WORKER);
+        ResultDTO<String> check = authenticationUtil.checkTokenAndUserRole(token, workerID, ROLE_WORKER);
         if (check != null) {
             return check;
         }

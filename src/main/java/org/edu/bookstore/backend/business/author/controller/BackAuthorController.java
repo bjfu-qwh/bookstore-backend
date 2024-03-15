@@ -25,7 +25,7 @@ public class BackAuthorController {
     public ResultDTO<String> addAuthor(@RequestHeader("Authorization") String token,
                                        @RequestParam("workerID") String workerID,
                                        @RequestBody AuthorInfo authorInfo) {
-        ResultDTO<String> check = authenticationUtil.checkToken(token, workerID, ROLE_WORKER);
+        ResultDTO<String> check = authenticationUtil.checkTokenAndUserRole(token, workerID, ROLE_WORKER);
         if (check != null) {
             return check;
         }

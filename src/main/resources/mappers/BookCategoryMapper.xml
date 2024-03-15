@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.edu.bookstore.backend.business.category.mapper.BookCategoryMapper">
+    <insert id="addCategory" parameterType="org.edu.bookstore.backend.business.category.entity.BookCategory">
+        insert into t_category_info(id, name, parent)
+        values (#{category.id}, #{category.name}, #{category.parent});
+    </insert>
+    <select id="getByID" resultMap="category-map">
+        select *
+        from t_category_info
+        where (id = #{id});
+    </select>
+    <select id="allCategories" resultType="org.edu.bookstore.backend.business.category.entity.BookCategory">
+        select *
+        from t_category_info;
+    </select>
+    <resultMap id="category-map" type="org.edu.bookstore.backend.business.category.entity.BookCategory">
+        <id property="id" column="id" jdbcType="VARCHAR" javaType="String"/>
+        <result property="name" column="name" jdbcType="VARCHAR" javaType="String"/>
+        <result property="parent" column="parent" jdbcType="VARCHAR" javaType="String"/>
+    </resultMap>
+</mapper>

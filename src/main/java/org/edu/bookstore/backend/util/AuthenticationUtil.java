@@ -11,7 +11,7 @@ public class AuthenticationUtil {
         this.jwtUtil = jwtUtil;
     }
 
-    public ResultDTO<String> checkToken(String token, String userID, String role) {
+    public ResultDTO<String> checkTokenAndUserRole(String token, String userID, String role) {
         if (token == null || token.isEmpty()) {
             return ResultDTOUtil.errorUnAuthorized("用户未认证");
         }
@@ -19,6 +19,13 @@ public class AuthenticationUtil {
             return jwtUtil.parseJWT(token, userID, role);
         }
         return null;
+    }
+
+    public ResultDTO<String> checkTokenOnly(String token) {
+        if (token == null || token.isEmpty()) {
+            return ResultDTOUtil.errorUnAuthorized("用户未认证");
+        }
+        return jwtUtil.parseJWT(token, null, null);
     }
 
 

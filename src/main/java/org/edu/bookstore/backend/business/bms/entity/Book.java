@@ -55,6 +55,12 @@ public class Book {
     private BigDecimal price;
 
     /**
+     * 图书页数
+     */
+    @TableField(value = "page")
+    private Integer page;
+
+    /**
      * 图书版本描述
      */
     @TableField(value = "edition")
