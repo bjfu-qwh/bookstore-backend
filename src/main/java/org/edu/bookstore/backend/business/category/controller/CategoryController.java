@@ -2,9 +2,9 @@ package org.edu.bookstore.backend.business.category.controller;
 
 import org.edu.bookstore.backend.business.category.entity.BookCategory;
 import org.edu.bookstore.backend.business.category.service.BookCategoryService;
-import org.edu.bookstore.backend.dto.ResultDTO;
+import org.edu.bookstore.backend.dto.JSONResult;
 import org.edu.bookstore.backend.util.AuthenticationUtil;
-import org.edu.bookstore.backend.util.ResultDTOUtil;
+import org.edu.bookstore.backend.util.JSONResultUtil;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,22 +25,27 @@ public class CategoryController {
 
 
     @GetMapping("all")
-    public ResultDTO<List<BookCategory>> allCategories(@RequestHeader("Authorization") String token) {
-        ResultDTO<String> check = authenticationUtil.checkTokenOnly(token);
+    public JSONResult<List<BookCategory>> allCategories(@RequestHeader("Authorization") String token) {
+        JSONResult<String> check = authenticationUtil.checkTokenOnly(token);
         if (check != null) {
-            return ResultDTOUtil.errorUnAuthorized(check.getMessage());
+            return JSONResultUtil.errorUnAuthorized(check.getMessage());
         }
         return bookCategoryService.allCategories();
     }
 
     @PostMapping("add")
-    public ResultDTO<String> addCategory(@RequestHeader("Authorization") String token,
-                                         @RequestParam("workerID") String workerID,
-                                         @RequestBody BookCategory category) {
-        ResultDTO<String> check = authenticationUtil.checkTokenAndUserRole(token, workerID, ROLE_WORKER);
+    public JSONResult<String> addCategory(@RequestHeader("Authorization") String token,
+                                          @RequestParam("workerID") String workerID,
+                                          @RequestBody BookCategory category) {
+        JSONResult<String> check = authenticationUtil.checkTokenAndUserRole(token, workerID, ROLE_WORKER);
         if (check != null) {
             return check;
         }
         return bookCategoryService.addCategory(category);
+    }
+
+    @GetMapping("children")
+    public JSONResult<List<BookCategory>> allChildren(@RequestParam(value = "parent", defaultValue = "") String parent) {
+        return bookCategoryService.allChildren(parent);
     }
 }

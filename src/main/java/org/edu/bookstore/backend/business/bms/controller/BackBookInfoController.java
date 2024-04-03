@@ -1,7 +1,7 @@
 package org.edu.bookstore.backend.business.bms.controller;
 
 import org.edu.bookstore.backend.business.bms.service.BackBookInfoService;
-import org.edu.bookstore.backend.dto.ResultDTO;
+import org.edu.bookstore.backend.dto.JSONResult;
 import org.edu.bookstore.backend.util.AuthenticationUtil;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,11 +20,11 @@ public class BackBookInfoController {
     }
 
     @PostMapping("change-name")
-    public ResultDTO<String> changeBookName(@RequestParam("workerID") String workerID,
-                                            @RequestHeader("Authorization") String token,
-                                            @RequestParam("bookID") long bookID,
-                                            @RequestParam("bookName") String name) {
-        ResultDTO<String> check = authenticationUtil.checkTokenAndUserRole(token, workerID, ROLE_WORKER);
+    public JSONResult<String> changeBookName(@RequestParam("workerID") String workerID,
+                                             @RequestHeader("Authorization") String token,
+                                             @RequestParam("bookID") long bookID,
+                                             @RequestParam("bookName") String name) {
+        JSONResult<String> check = authenticationUtil.checkTokenAndUserRole(token, workerID, ROLE_WORKER);
         if (check != null) {
             return check;
         }

@@ -1,10 +1,11 @@
 package org.edu.bookstore.backend.business.author.mapper;
 
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.edu.bookstore.backend.business.author.entity.AuthorInfo;
 
-public interface BackendAuthorMapper {
+public interface BackendAuthorMapper extends BaseMapper<AuthorInfo> {
     /**
      * 注册一个新作家信息
      *

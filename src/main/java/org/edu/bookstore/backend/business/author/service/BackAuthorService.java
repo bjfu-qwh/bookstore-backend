@@ -1,11 +1,16 @@
 package org.edu.bookstore.backend.business.author.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
+import org.edu.bookstore.backend.business.author.dto.AuthorSelectItemDTO;
 import org.edu.bookstore.backend.business.author.entity.AuthorInfo;
 import org.edu.bookstore.backend.business.author.mapper.BackendAuthorMapper;
-import org.edu.bookstore.backend.dto.ResultDTO;
-import org.edu.bookstore.backend.util.ResultDTOUtil;
+import org.edu.bookstore.backend.dto.JSONResult;
+import org.edu.bookstore.backend.util.JSONResultUtil;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -21,12 +26,25 @@ public class BackAuthorService {
      *
      * @param authorInfo 新增作者信息
      */
-    public ResultDTO<String> addAuthor(AuthorInfo authorInfo) {
+    public JSONResult<String> addAuthor(AuthorInfo authorInfo) {
         int count = backendAuthorMapper.addAuthor(authorInfo);
         if (count != 0) {
             log.info("添加了一名作者.");
-            return ResultDTOUtil.successWithMessageOnly(String.format("成功添加了%d个作者", count));
+            return JSONResultUtil.successWithMessageOnly(String.format("成功添加了%d个作者", count));
         }
-        return ResultDTOUtil.error("服务器故障");
+        return JSONResultUtil.error("服务器故障");
+    }
+
+    public JSONResult<List<AuthorSelectItemDTO>> allAuthorSelectorItem() {
+        List<AuthorInfo> authors = backendAuthorMapper.selectList(new QueryWrapper<>());
+        List<AuthorSelectItemDTO> authorSelectItemDTOList = new ArrayList<>();
+        for (AuthorInfo author : authors) {
+            authorSelectItemDTOList.add(authorToSelectorItem(author));
+        }
+        return JSONResultUtil.successWithDataOnly(authorSelectItemDTOList);
+    }
+
+    private AuthorSelectItemDTO authorToSelectorItem(AuthorInfo author) {
+        return new AuthorSelectItemDTO(author.getId(), author.getName(), author.getNation());
     }
 }

@@ -6,9 +6,9 @@ import org.edu.bookstore.backend.business.ums.dto.UserRegisterDTO;
 import org.edu.bookstore.backend.business.ums.dto.UserTokenDTO;
 import org.edu.bookstore.backend.business.ums.entity.User;
 import org.edu.bookstore.backend.business.ums.mapper.AccountMapper;
-import org.edu.bookstore.backend.dto.ResultDTO;
+import org.edu.bookstore.backend.dto.JSONResult;
+import org.edu.bookstore.backend.util.JSONResultUtil;
 import org.edu.bookstore.backend.util.JWTUtil;
-import org.edu.bookstore.backend.util.ResultDTOUtil;
 import org.edu.bookstore.backend.util.UUIDUtil;
 import org.springframework.stereotype.Service;
 
@@ -35,12 +35,12 @@ public class AccountService {
      * @param info 注册账号信息
      * @return 注册是否成功。
      */
-    public ResultDTO<UserTokenDTO> register(UserRegisterDTO info) {
+    public JSONResult<UserTokenDTO> register(UserRegisterDTO info) {
         String uuid = UUIDUtil.getUUID();
         User user = infoToWorker(info);
         user.setId(uuid);
         if (accountMapper.register(user) != 0) {
-            return ResultDTOUtil.success("注册成功",
+            return JSONResultUtil.success("注册成功",
                     new UserTokenDTO(
                             uuid,
                             user.getUsername(),
@@ -50,7 +50,7 @@ public class AccountService {
                     )
             );
         }
-        return ResultDTOUtil.error("系统故障");
+        return JSONResultUtil.error("系统故障");
     }
 
     private User infoToWorker(UserRegisterDTO info) {
@@ -72,7 +72,7 @@ public class AccountService {
      * @param loginDTO 用户输入的登录信息。包括邮箱/手机号以及加密后的密码
      * @return 为用户进行相应提示
      */
-    public ResultDTO<UserTokenDTO> login(LoginDTO loginDTO) {
+    public JSONResult<UserTokenDTO> login(LoginDTO loginDTO) {
         User user;
         synchronized (this.accountMapper) {
             user = accountMapper.getByPhone(loginDTO.getKey());
@@ -84,19 +84,19 @@ public class AccountService {
             if (user != null) {
                 return validateUser(user, loginDTO);
             }
-            return ResultDTOUtil.errorNotFound("登录信息或密码错误,请重新尝试");
+            return JSONResultUtil.errorNotFound("登录信息或密码错误,请重新尝试");
         }
         return validateUser(user, loginDTO);
     }
 
-    private ResultDTO<UserTokenDTO> validateUser(User user, LoginDTO loginDTO) {
+    private JSONResult<UserTokenDTO> validateUser(User user, LoginDTO loginDTO) {
         String password = user.getPassword();
         if (password.equals(loginDTO.getPassword())) {
             accountMapper.updateLastVisit(user.getId());
-            return ResultDTOUtil.success(String.format("欢迎你,%s", user.getUsername()),
+            return JSONResultUtil.success(String.format("欢迎你,%s", user.getUsername()),
                     fromUserToUserToken(user));
         }
-        return ResultDTOUtil.errorNotFound("登录信息或密码错误,请重新尝试");
+        return JSONResultUtil.errorNotFound("登录信息或密码错误,请重新尝试");
     }
 
     private UserTokenDTO fromUserToUserToken(User user) {
@@ -109,17 +109,17 @@ public class AccountService {
         return userTokenDTO;
     }
 
-    public ResultDTO<String> checkEmail(String email) {
+    public JSONResult<String> checkEmail(String email) {
         if (accountMapper.getByEmail(email) != null) {
-            return ResultDTOUtil.errorForbidden("该邮箱已被注册，请更换邮箱");
+            return JSONResultUtil.errorForbidden("该邮箱已被注册，请更换邮箱");
         }
-        return ResultDTOUtil.successWithMessageOnly("该邮箱可以使用");
+        return JSONResultUtil.successWithMessageOnly("该邮箱可以使用");
     }
 
-    public ResultDTO<String> checkPhone(String phone) {
+    public JSONResult<String> checkPhone(String phone) {
         if (accountMapper.getByPhone(phone) != null) {
-            return ResultDTOUtil.errorForbidden("该手机号码已被注册，请更换");
+            return JSONResultUtil.errorForbidden("该手机号码已被注册，请更换");
         }
-        return ResultDTOUtil.successWithMessageOnly("该手机号可以使用");
+        return JSONResultUtil.successWithMessageOnly("该手机号可以使用");
     }
 }

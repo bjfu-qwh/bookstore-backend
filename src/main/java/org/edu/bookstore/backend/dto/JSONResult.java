@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class ResultDTO<T> {
+public class JSONResult<T> {
     /**
      * 返回的状态码，简化起见可以直接模拟http
      */

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,11 +22,14 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class BookCategory implements Serializable {
     @TableId(value = "id", type = IdType.INPUT)
+    @JsonProperty
     private String id;
 
     @TableField(value = "name")
+    @JsonProperty
     private String name;
 
     @TableField(value = "parent")
-    private Long parent;
+    @JsonProperty
+    private String parent;
 }

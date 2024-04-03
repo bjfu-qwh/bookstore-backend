@@ -3,8 +3,8 @@ package org.edu.bookstore.backend.business.category.service;
 import lombok.extern.slf4j.Slf4j;
 import org.edu.bookstore.backend.business.category.entity.BookCategory;
 import org.edu.bookstore.backend.business.category.mapper.BookCategoryMapper;
-import org.edu.bookstore.backend.dto.ResultDTO;
-import org.edu.bookstore.backend.util.ResultDTOUtil;
+import org.edu.bookstore.backend.dto.JSONResult;
+import org.edu.bookstore.backend.util.JSONResultUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,25 +18,32 @@ public class BookCategoryService {
         this.categoryMapper = categoryMapper;
     }
 
-    public ResultDTO<String> addCategory(BookCategory category) {
-        if (isCategoryIDExists(category.getId()) != null) {
-            return ResultDTOUtil.errorForbidden(
-                    String.format("图书分类编号%s已被使用", category.getId()));
+    public JSONResult<String> addCategory(BookCategory category) {
+        int result;
+        synchronized (categoryMapper) {
+            if (isCategoryIDExists(category.getId()) != null) {
+                return JSONResultUtil.errorForbidden(
+                        String.format("图书分类编号%s已被使用", category.getId()));
+            }
+            result = categoryMapper.addCategory(category);
         }
-        int result = categoryMapper.addCategory(category);
-        return ResultDTOUtil.successWithMessageOnly(String.format("成功添加了%d个分类", result));
+        return JSONResultUtil.successWithMessageOnly(String.format("成功添加了%d个分类", result));
     }
 
-    public ResultDTO<String> isCategoryIDExists(String id) {
+    public JSONResult<String> isCategoryIDExists(String id) {
         BookCategory category = categoryMapper.getByID(id);
         if (category != null) {
-            return ResultDTOUtil.successWithMessageOnly(
+            return JSONResultUtil.successWithMessageOnly(
                     String.format("该编号%s已被使用,请重新选择", id));
         }
-        return ResultDTOUtil.successWithMessageOnly("可以使用的分类编号");
+        return JSONResultUtil.successWithMessageOnly("可以使用的分类编号");
     }
 
-    public ResultDTO<List<BookCategory>> allCategories() {
-        return ResultDTOUtil.successWithDataOnly(categoryMapper.allCategories());
+    public JSONResult<List<BookCategory>> allCategories() {
+        return JSONResultUtil.successWithDataOnly(categoryMapper.allCategories());
+    }
+
+    public JSONResult<List<BookCategory>> allChildren(String parentID) {
+        return JSONResultUtil.successWithDataOnly(categoryMapper.allChildren(parentID));
     }
 }

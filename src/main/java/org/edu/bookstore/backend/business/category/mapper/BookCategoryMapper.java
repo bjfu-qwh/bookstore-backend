@@ -12,4 +12,6 @@ public interface BookCategoryMapper {
     BookCategory getByID(@Param("id") String id);
 
     List<BookCategory> allCategories();
+
+    List<BookCategory> allChildren(@Param("parent") String parent);
 }

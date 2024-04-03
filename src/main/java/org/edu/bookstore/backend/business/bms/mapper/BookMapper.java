@@ -23,4 +23,6 @@ public interface BookMapper extends BaseMapper<Book> {
      * @return {@link Book}对象
      */
     List<Book> search(Page<Book> page, @Param("query") String query);
+
+    Book checkISBN(@Param("isbn") String isbn);
 }

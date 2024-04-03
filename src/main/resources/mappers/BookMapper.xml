@@ -2,8 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.edu.bookstore.backend.business.bms.mapper.BookMapper">
     <insert id="addBook" parameterType="org.edu.bookstore.backend.business.bms.entity.Book">
-        insert into t_bms_book(isbn, book_name, press, amount, category_id, page, price, edition, published, type)
-        values (#{book.isbn}, #{book.bookName}, #{book.press}, #{book.amount}, #{book.categoryID}, #{book.page},
+        insert into t_bms_book(id, isbn, book_name, press, amount, category_id, page, price, edition, published, type)
+        values (#{book.id}, #{book.isbn}, #{book.bookName}, #{book.press}, #{book.amount}, #{book.categoryID},
+                #{book.page},
                 #{book.price}, #{book.edition}, #{book.published}, #{book.type});
     </insert>
     <select id="search" resultMap="book-map">
@@ -19,13 +20,18 @@
                   )
         order by published desc
     </select>
+    <select id="checkISBN" resultMap="book-map">
+        select book.*
+        from t_bms_book book
+        where (isbn = #{isbn});
+    </select>
     <resultMap id="book-map" type="org.edu.bookstore.backend.business.bms.entity.Book">
-        <id property="id" column="id" javaType="long" jdbcType="BIGINT"/>
+        <id property="id" column="id" javaType="String" jdbcType="VARCHAR"/>
         <result property="price" column="price" javaType="BigDecimal" jdbcType="DECIMAL"/>
         <result property="bookName" column="book_name" javaType="String" jdbcType="VARCHAR"/>
         <result property="isbn" column="isbn" javaType="String" jdbcType="VARCHAR"/>
         <result property="amount" column="amount" javaType="int" jdbcType="INTEGER"/>
-        <result property="categoryID" column="category_id" javaType="long" jdbcType="BIGINT"/>
+        <result property="categoryID" column="category_id" javaType="String" jdbcType="VARCHAR"/>
         <result property="edition" column="edition" javaType="String" jdbcType="VARCHAR"/>
         <result property="page" column="page" javaType="Integer" jdbcType="INTEGER"/>
         <result property="published" column="published"/>

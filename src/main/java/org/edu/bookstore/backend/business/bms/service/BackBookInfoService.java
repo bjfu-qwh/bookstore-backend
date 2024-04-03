@@ -4,8 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.edu.bookstore.backend.business.bms.entity.Book;
 import org.edu.bookstore.backend.business.bms.mapper.BookInfoMapper;
 import org.edu.bookstore.backend.business.bms.mapper.BookMapper;
-import org.edu.bookstore.backend.dto.ResultDTO;
-import org.edu.bookstore.backend.util.ResultDTOUtil;
+import org.edu.bookstore.backend.dto.JSONResult;
+import org.edu.bookstore.backend.util.JSONResultUtil;
 import org.springframework.stereotype.Service;
 
 /**
@@ -31,13 +31,13 @@ public class BackBookInfoService {
      * @param workerID 修改工作人员账号ID
      * @return 修改结果
      */
-    public ResultDTO<String> changeBookName(long bookID, String bookName, String workerID) {
+    public JSONResult<String> changeBookName(long bookID, String bookName, String workerID) {
         Book book = bookMapper.selectById(bookID);
         if (book == null) {
-            return ResultDTOUtil.errorNotFound("未能查询到相关图书，请稍后再试");
+            return JSONResultUtil.errorNotFound("未能查询到相关图书，请稍后再试");
         }
         log.info("工作账号{}修改了图书:{}的名称", workerID, bookID);
         infoMapper.changeBookName(bookID, bookName);
-        return ResultDTOUtil.successWithMessageOnly("修改成功");
+        return JSONResultUtil.successWithMessageOnly("修改成功");
     }
 }

@@ -1,10 +1,13 @@
 package org.edu.bookstore.backend.business.author.controller;
 
+import org.edu.bookstore.backend.business.author.dto.AuthorSelectItemDTO;
 import org.edu.bookstore.backend.business.author.entity.AuthorInfo;
 import org.edu.bookstore.backend.business.author.service.BackAuthorService;
-import org.edu.bookstore.backend.dto.ResultDTO;
+import org.edu.bookstore.backend.dto.JSONResult;
 import org.edu.bookstore.backend.util.AuthenticationUtil;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static org.edu.bookstore.backend.business.ums.constant.UserRole.ROLE_WORKER;
 
@@ -22,13 +25,18 @@ public class BackAuthorController {
     }
 
     @PostMapping("add")
-    public ResultDTO<String> addAuthor(@RequestHeader("Authorization") String token,
-                                       @RequestParam("workerID") String workerID,
-                                       @RequestBody AuthorInfo authorInfo) {
-        ResultDTO<String> check = authenticationUtil.checkTokenAndUserRole(token, workerID, ROLE_WORKER);
+    public JSONResult<String> addAuthor(@RequestHeader("Authorization") String token,
+                                        @RequestParam("workerID") String workerID,
+                                        @RequestBody AuthorInfo authorInfo) {
+        JSONResult<String> check = authenticationUtil.checkTokenAndUserRole(token, workerID, ROLE_WORKER);
         if (check != null) {
             return check;
         }
         return authorService.addAuthor(authorInfo);
+    }
+
+    @GetMapping("selector")
+    public JSONResult<List<AuthorSelectItemDTO>> allAuthorSelectorItem() {
+        return authorService.allAuthorSelectorItem();
     }
 }
