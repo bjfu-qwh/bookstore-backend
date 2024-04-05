@@ -2,8 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.edu.bookstore.backend.business.bms.mapper.BookMapper">
     <insert id="addBook" parameterType="org.edu.bookstore.backend.business.bms.entity.Book">
-        insert into t_bms_book(id, isbn, book_name, press, amount, category_id, page, price, edition, published, type)
-        values (#{book.id}, #{book.isbn}, #{book.bookName}, #{book.press}, #{book.amount}, #{book.categoryID},
+        insert into t_bms_book(id, isbn, book_name, press, url, amount, page, price, edition, published,
+                               type)
+        values (#{book.id}, #{book.isbn}, #{book.bookName}, #{book.press},
+                #{book.url}, #{book.amount},
                 #{book.page},
                 #{book.price}, #{book.edition}, #{book.published}, #{book.type});
     </insert>
@@ -25,17 +27,77 @@
         from t_bms_book book
         where (isbn = #{isbn});
     </select>
+    <select id="getBookVOPage" resultMap="book-vo-map">
+        select book.id            as id,
+               book.price         as price,
+               book.book_name     as book_name,
+               book.press         as press,
+               book.isbn          as isbn,
+               book.url           as url,
+               author_info.name   as author_name,
+               author_info.nation as nation,
+               author_info.id     as author_id
+        from t_bms_book book
+                 left outer join t_author_work author_work on author_work.work_id = book.id
+                 left outer join t_author_info author_info on author_info.id = author_work.author_id
+        order by published desc
+    </select>
+    <select id="searchBookVOPage" resultMap="book-vo-map">
+        select book.id            as id,
+               book.price         as price,
+               book.book_name     as book_name,
+               book.press         as press,
+               book.isbn          as isbn,
+               book.url           as url,
+               author_info.id     as author_id,
+               author_info.name   as author_name,
+               author_info.nation as nation
+        from t_bms_book book
+                 left outer join t_author_work author_work on author_work.work_id = book.id
+                 left outer join t_author_info author_info on author_info.id = author_work.author_id
+        where (
+                  book.book_name like concat('%', #{query}, '%') or
+                  book.press like concat('%', #{query}, '%') or
+                  book.isbn like concat('%', #{query}, '%') or
+                  author_info.name like concat('%', #{query}, '%')
+                  )
+        order by published desc
+    </select>
+    <select id="selectById" resultMap="book-map">
+        select *
+        from t_bms_book
+        where (id = #{book_id});
+    </select>
     <resultMap id="book-map" type="org.edu.bookstore.backend.business.bms.entity.Book">
         <id property="id" column="id" javaType="String" jdbcType="VARCHAR"/>
         <result property="price" column="price" javaType="BigDecimal" jdbcType="DECIMAL"/>
         <result property="bookName" column="book_name" javaType="String" jdbcType="VARCHAR"/>
         <result property="isbn" column="isbn" javaType="String" jdbcType="VARCHAR"/>
         <result property="amount" column="amount" javaType="int" jdbcType="INTEGER"/>
-        <result property="categoryID" column="category_id" javaType="String" jdbcType="VARCHAR"/>
         <result property="edition" column="edition" javaType="String" jdbcType="VARCHAR"/>
         <result property="page" column="page" javaType="Integer" jdbcType="INTEGER"/>
         <result property="published" column="published"/>
+        <result property="url" column="url" javaType="String" jdbcType="VARCHAR"/>
         <result property="type" column="type" javaType="String" jdbcType="VARCHAR"/>
         <result property="press" column="press" javaType="String" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="book-vo-map" type="org.edu.bookstore.backend.business.bms.vo.BookVO">
+        <id property="id" column="id" javaType="String" jdbcType="VARCHAR"/>
+        <result property="url" column="url" javaType="String" jdbcType="VARCHAR"/>
+        <result property="bookName" column="book_name" javaType="String" jdbcType="VARCHAR"/>
+        <result property="press" column="press" javaType="String" jdbcType="VARCHAR"/>
+        <result property="isbn" column="isbn" javaType="String" jdbcType="VARCHAR"/>
+        <result property="price" column="price" javaType="BigDecimal" jdbcType="DECIMAL"/>
+        <collection property="authors">
+            <id property="id" column="author_id" javaType="Long" jdbcType="BIGINT"/>
+            <result property="name" column="author_name" javaType="String" jdbcType="VARCHAR"/>
+            <result property="nation" column="nation" javaType="String" jdbcType="VARCHAR"/>
+        </collection>
+        <collection property="categories">
+            <id property="id" column="category_id" jdbcType="VARCHAR" javaType="String"/>
+            <id property="name" column="category_name" jdbcType="VARCHAR" javaType="String"/>
+            <id property="parent" column="category_parent" jdbcType="VARCHAR" javaType="String"/>
+        </collection>
     </resultMap>
 </mapper>

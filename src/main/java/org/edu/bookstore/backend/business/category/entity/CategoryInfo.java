@@ -20,7 +20,7 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookCategory implements Serializable {
+public class CategoryInfo implements Serializable {
     @TableId(value = "id", type = IdType.INPUT)
     @JsonProperty
     private String id;

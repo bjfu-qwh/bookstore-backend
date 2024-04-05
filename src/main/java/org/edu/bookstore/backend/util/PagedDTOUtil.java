@@ -5,7 +5,7 @@ import org.edu.bookstore.backend.dto.PagedDTO;
 import java.util.List;
 
 public class PagedDTOUtil {
-    public static <T> PagedDTO<T> create(int pageID, int pageSize, int total, List<T> data) {
-        return new PagedDTO<>(pageID, pageSize, total, data);
+    public static <T> PagedDTO<T> create(long total, int pageID, int pageSize, List<T> data) {
+        return new PagedDTO<>(total, pageID, pageSize, data);
     }
 }

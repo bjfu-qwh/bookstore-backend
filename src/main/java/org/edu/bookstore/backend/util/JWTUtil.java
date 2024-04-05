@@ -3,7 +3,6 @@ package org.edu.bookstore.backend.util;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.extern.slf4j.Slf4j;
 import org.edu.bookstore.backend.business.ums.entity.User;
@@ -45,7 +44,7 @@ public class JWTUtil {
         try {
             DecodedJWT jwt = verifier.verify(token);
             String user = jwt.getSubject();
-            User userInfo = accountMapper.getByUserID(userID);
+            User userInfo = accountMapper.getByUserID(user);
             if (user == null || userInfo == null) {
                 log.warn("未认证账号ID:{}", userID);
                 return JSONResultUtil.errorUnAuthorized("未认证的用户，请重新登录");
@@ -59,7 +58,7 @@ public class JWTUtil {
                 return JSONResultUtil.errorForbidden("账号类型错误");
             }
             return null;
-        } catch (TokenExpiredException expiredException) {
+        } catch (Exception expiredException) {
             return JSONResultUtil.errorUnAuthorized("登录信息已超时，请重新登录");
         }
     }

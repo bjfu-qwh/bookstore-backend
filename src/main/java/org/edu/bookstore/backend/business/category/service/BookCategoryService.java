@@ -1,8 +1,8 @@
 package org.edu.bookstore.backend.business.category.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.edu.bookstore.backend.business.category.entity.BookCategory;
-import org.edu.bookstore.backend.business.category.mapper.BookCategoryMapper;
+import org.edu.bookstore.backend.business.category.entity.CategoryInfo;
+import org.edu.bookstore.backend.business.category.mapper.CategoryInfoMapper;
 import org.edu.bookstore.backend.dto.JSONResult;
 import org.edu.bookstore.backend.util.JSONResultUtil;
 import org.springframework.stereotype.Service;
@@ -12,13 +12,13 @@ import java.util.List;
 @Service
 @Slf4j
 public class BookCategoryService {
-    private final BookCategoryMapper categoryMapper;
+    private final CategoryInfoMapper categoryMapper;
 
-    public BookCategoryService(BookCategoryMapper categoryMapper) {
+    public BookCategoryService(CategoryInfoMapper categoryMapper) {
         this.categoryMapper = categoryMapper;
     }
 
-    public JSONResult<String> addCategory(BookCategory category) {
+    public JSONResult<String> addCategory(CategoryInfo category) {
         int result;
         synchronized (categoryMapper) {
             if (isCategoryIDExists(category.getId()) != null) {
@@ -31,7 +31,7 @@ public class BookCategoryService {
     }
 
     public JSONResult<String> isCategoryIDExists(String id) {
-        BookCategory category = categoryMapper.getByID(id);
+        CategoryInfo category = categoryMapper.getByID(id);
         if (category != null) {
             return JSONResultUtil.successWithMessageOnly(
                     String.format("该编号%s已被使用,请重新选择", id));
@@ -39,11 +39,11 @@ public class BookCategoryService {
         return JSONResultUtil.successWithMessageOnly("可以使用的分类编号");
     }
 
-    public JSONResult<List<BookCategory>> allCategories() {
+    public JSONResult<List<CategoryInfo>> allCategories() {
         return JSONResultUtil.successWithDataOnly(categoryMapper.allCategories());
     }
 
-    public JSONResult<List<BookCategory>> allChildren(String parentID) {
+    public JSONResult<List<CategoryInfo>> allChildren(String parentID) {
         return JSONResultUtil.successWithDataOnly(categoryMapper.allChildren(parentID));
     }
 }

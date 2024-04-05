@@ -18,7 +18,7 @@ public class PagedDTO<T> implements Serializable {
      * total表示原表的记录总数量
      */
     @JsonProperty(value = "total")
-    private int total;
+    private Long total;
 
     /**
      * pageID表示页码，默认值是1

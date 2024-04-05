@@ -1,6 +1,6 @@
 package org.edu.bookstore.backend.business.category.controller;
 
-import org.edu.bookstore.backend.business.category.entity.BookCategory;
+import org.edu.bookstore.backend.business.category.entity.CategoryInfo;
 import org.edu.bookstore.backend.business.category.service.BookCategoryService;
 import org.edu.bookstore.backend.dto.JSONResult;
 import org.edu.bookstore.backend.util.AuthenticationUtil;
@@ -25,7 +25,7 @@ public class CategoryController {
 
 
     @GetMapping("all")
-    public JSONResult<List<BookCategory>> allCategories(@RequestHeader("Authorization") String token) {
+    public JSONResult<List<CategoryInfo>> allCategories(@RequestHeader("Authorization") String token) {
         JSONResult<String> check = authenticationUtil.checkTokenOnly(token);
         if (check != null) {
             return JSONResultUtil.errorUnAuthorized(check.getMessage());
@@ -36,7 +36,7 @@ public class CategoryController {
     @PostMapping("add")
     public JSONResult<String> addCategory(@RequestHeader("Authorization") String token,
                                           @RequestParam("workerID") String workerID,
-                                          @RequestBody BookCategory category) {
+                                          @RequestBody CategoryInfo category) {
         JSONResult<String> check = authenticationUtil.checkTokenAndUserRole(token, workerID, ROLE_WORKER);
         if (check != null) {
             return check;
@@ -45,7 +45,7 @@ public class CategoryController {
     }
 
     @GetMapping("children")
-    public JSONResult<List<BookCategory>> allChildren(@RequestParam(value = "parent", defaultValue = "") String parent) {
+    public JSONResult<List<CategoryInfo>> allChildren(@RequestParam(value = "parent", defaultValue = "") String parent) {
         return bookCategoryService.allChildren(parent);
     }
 }
