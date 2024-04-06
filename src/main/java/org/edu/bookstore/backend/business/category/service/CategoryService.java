@@ -11,10 +11,10 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class BookCategoryService {
+public class CategoryService {
     private final CategoryInfoMapper categoryMapper;
 
-    public BookCategoryService(CategoryInfoMapper categoryMapper) {
+    public CategoryService(CategoryInfoMapper categoryMapper) {
         this.categoryMapper = categoryMapper;
     }
 
@@ -36,7 +36,7 @@ public class BookCategoryService {
             return JSONResultUtil.successWithMessageOnly(
                     String.format("该编号%s已被使用,请重新选择", id));
         }
-        return JSONResultUtil.successWithMessageOnly("可以使用的分类编号");
+        return null;
     }
 
     public JSONResult<List<CategoryInfo>> allCategories() {
@@ -45,5 +45,15 @@ public class BookCategoryService {
 
     public JSONResult<List<CategoryInfo>> allChildren(String parentID) {
         return JSONResultUtil.successWithDataOnly(categoryMapper.allChildren(parentID));
+    }
+
+    public JSONResult<CategoryInfo> getByCategoryID(String categoryID) {
+        return JSONResultUtil.successWithDataOnly(categoryMapper.getByID(categoryID));
+    }
+
+    public JSONResult<Boolean> checkCategoryID(String id) {
+        CategoryInfo info = categoryMapper.getByID(id);
+        boolean exists = (info != null);
+        return JSONResultUtil.successWithDataOnly(exists);
     }
 }

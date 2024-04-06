@@ -16,7 +16,7 @@ import lombok.Setter;
 @TableName(value = "t_author_work")
 public class AuthorWork {
     @TableId(value = "id", type = IdType.AUTO)
-    private long id;
+    private Long id;
 
     @TableField(value = "work_id")
     private String workID;

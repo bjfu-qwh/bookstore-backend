@@ -17,7 +17,7 @@
         <java.jwt>4.4.0</java.jwt>
         <java.version>17</java.version>
         <aliyun.oss>2.8.3</aliyun.oss>
-        <mybatis.plus>3.5.3.1</mybatis.plus>
+        <mybatis.plus>3.5.5</mybatis.plus>
         <mysql.connector>8.2.0</mysql.connector>
         <lombok>1.18.30</lombok>
     </properties>
@@ -35,6 +35,11 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>${mybatis.plus}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-extension</artifactId>
             <version>${mybatis.plus}</version>
         </dependency>
         <dependency>

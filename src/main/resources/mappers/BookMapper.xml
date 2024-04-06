@@ -34,12 +34,17 @@
                book.press         as press,
                book.isbn          as isbn,
                book.url           as url,
+               author_info.id     as author_id,
                author_info.name   as author_name,
                author_info.nation as nation,
-               author_info.id     as author_id
+               category.id        as category_id,
+               category.name      as category_name,
+               category.parent    as category_parent
         from t_bms_book book
                  left outer join t_author_work author_work on author_work.work_id = book.id
                  left outer join t_author_info author_info on author_info.id = author_work.author_id
+                 left outer join t_category_book category_book on category_book.book_id = book.id
+                 left outer join t_category_info category on category.id = category_book.category_id
         order by published desc
     </select>
     <select id="searchBookVOPage" resultMap="book-vo-map">
@@ -51,15 +56,21 @@
                book.url           as url,
                author_info.id     as author_id,
                author_info.name   as author_name,
-               author_info.nation as nation
+               author_info.nation as nation,
+               category.id        as category_id,
+               category.name      as category_name,
+               category.parent    as category_parent
         from t_bms_book book
                  left outer join t_author_work author_work on author_work.work_id = book.id
                  left outer join t_author_info author_info on author_info.id = author_work.author_id
+                 left outer join t_category_book category_book on category_book.book_id = book.id
+                 left outer join t_category_info category on category.id = category_book.category_id
         where (
                   book.book_name like concat('%', #{query}, '%') or
                   book.press like concat('%', #{query}, '%') or
                   book.isbn like concat('%', #{query}, '%') or
-                  author_info.name like concat('%', #{query}, '%')
+                  author_info.name like concat('%', #{query}, '%') or
+                  category.name like concat('%', #{query}, '%')
                   )
         order by published desc
     </select>
@@ -89,12 +100,12 @@
         <result property="press" column="press" javaType="String" jdbcType="VARCHAR"/>
         <result property="isbn" column="isbn" javaType="String" jdbcType="VARCHAR"/>
         <result property="price" column="price" javaType="BigDecimal" jdbcType="DECIMAL"/>
-        <collection property="authors">
+        <collection property="authors" ofType="org.edu.bookstore.backend.business.author.vo.BookAuthorVO">
             <id property="id" column="author_id" javaType="Long" jdbcType="BIGINT"/>
             <result property="name" column="author_name" javaType="String" jdbcType="VARCHAR"/>
             <result property="nation" column="nation" javaType="String" jdbcType="VARCHAR"/>
         </collection>
-        <collection property="categories">
+        <collection property="categories" ofType="org.edu.bookstore.backend.business.category.entity.CategoryInfo">
             <id property="id" column="category_id" jdbcType="VARCHAR" javaType="String"/>
             <id property="name" column="category_name" jdbcType="VARCHAR" javaType="String"/>
             <id property="parent" column="category_parent" jdbcType="VARCHAR" javaType="String"/>

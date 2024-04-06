@@ -1,7 +1,7 @@
 package org.edu.bookstore.backend.business.category.controller;
 
 import org.edu.bookstore.backend.business.category.entity.CategoryInfo;
-import org.edu.bookstore.backend.business.category.service.BookCategoryService;
+import org.edu.bookstore.backend.business.category.service.CategoryService;
 import org.edu.bookstore.backend.dto.JSONResult;
 import org.edu.bookstore.backend.util.AuthenticationUtil;
 import org.edu.bookstore.backend.util.JSONResultUtil;
@@ -16,11 +16,11 @@ import static org.edu.bookstore.backend.business.ums.constant.UserRole.ROLE_WORK
 @RequestMapping("/category/")
 public class CategoryController {
     private final AuthenticationUtil authenticationUtil;
-    private final BookCategoryService bookCategoryService;
+    private final CategoryService categoryService;
 
-    public CategoryController(AuthenticationUtil authenticationUtil, BookCategoryService bookCategoryService) {
+    public CategoryController(AuthenticationUtil authenticationUtil, CategoryService categoryService) {
         this.authenticationUtil = authenticationUtil;
-        this.bookCategoryService = bookCategoryService;
+        this.categoryService = categoryService;
     }
 
 
@@ -30,7 +30,7 @@ public class CategoryController {
         if (check != null) {
             return JSONResultUtil.errorUnAuthorized(check.getMessage());
         }
-        return bookCategoryService.allCategories();
+        return categoryService.allCategories();
     }
 
     @PostMapping("add")
@@ -41,11 +41,21 @@ public class CategoryController {
         if (check != null) {
             return check;
         }
-        return bookCategoryService.addCategory(category);
+        return categoryService.addCategory(category);
     }
 
     @GetMapping("children")
     public JSONResult<List<CategoryInfo>> allChildren(@RequestParam(value = "parent", defaultValue = "") String parent) {
-        return bookCategoryService.allChildren(parent);
+        return categoryService.allChildren(parent);
+    }
+
+    @GetMapping("get")
+    public JSONResult<CategoryInfo> getByID(@RequestParam("id") String categoryID) {
+        return categoryService.getByCategoryID(categoryID);
+    }
+
+    @GetMapping("check-id")
+    public JSONResult<Boolean> checkCategoryID(@RequestParam("id") String id) {
+        return categoryService.checkCategoryID(id);
     }
 }

@@ -21,7 +21,7 @@ public class AuthorInfo implements Serializable {
      * 数据表主键url
      */
     @TableId(value = "id", type = IdType.AUTO)
-    private long id;
+    private Long id;
 
     /**
      * 作家姓名
