@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
  * 开启mybatis的mapper bean注册以及mybatis-plus的分页插件
  */
 @Configuration
-@MapperScan("org.edu.bookstore.backend.business.**.mapper")
+@MapperScan("org.edu.bookstore.backend.**.mapper")
 public class MybatisPlusConfig {
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor() {

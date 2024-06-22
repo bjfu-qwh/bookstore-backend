@@ -3,11 +3,13 @@ package org.edu.bookstore.backend.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class JSONResult<T> {
     /**
      * 返回的状态码，简化起见可以直接模拟http

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.edu.bookstore.backend.business.category.mapper.CategoryBookMapper">
+<mapper namespace="org.edu.bookstore.backend.category.mapper.CategoryBookMapper">
 
     <insert id="add">
         insert into t_category_book(book_id, category_id, parent_id)
@@ -17,14 +17,14 @@
         where (book_id = #{book_id} and parent_id = #{parent_id});
     </delete>
     <select id="getByBookIDAndCategoryID"
-            resultMap="org.edu.bookstore.backend.business.category.mapper.CategoryInfoMapper.category-map">
+            resultMap="org.edu.bookstore.backend.category.mapper.CategoryInfoMapper.category-map">
         select category.*
         from t_category_info category
                  left outer join t_category_book on t_category_book.category_id = category.id
         where (t_category_book.book_id = #{book_id} and t_category_book.category_id = #{category_id});
     </select>
     <select id="getRootCategory"
-            resultMap="org.edu.bookstore.backend.business.category.mapper.CategoryInfoMapper.category-map">
+            resultMap="org.edu.bookstore.backend.category.mapper.CategoryInfoMapper.category-map">
         select category.*
         from t_category_info category
                  left outer join t_category_book on t_category_book.category_id = category.id
@@ -32,7 +32,7 @@
                t_category_book.category_id = #{category_id});
     </select>
     <select id="getChildByBookIDAndParentID"
-            resultMap="org.edu.bookstore.backend.business.category.mapper.CategoryInfoMapper.category-map">
+            resultMap="org.edu.bookstore.backend.category.mapper.CategoryInfoMapper.category-map">
         select category.*
         from t_category_info category
                  left outer join t_category_book on t_category_book.category_id = category.id
